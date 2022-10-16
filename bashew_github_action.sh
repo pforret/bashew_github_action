@@ -69,8 +69,11 @@ Script:main() {
     Os:folder "$out_dir" 30
     IO:log "Create screenshots"
     # shellcheck disable=SC2154
-    shot-scraper https://blog.forret.com --width "$width" --height "$height" -o "$out_dir/blog.forret.com.png" &>> "$log_file"
-    shot-scraper https://peter.forret.com --width "$width" --height "$height" -o "$out_dir/peter.forret.com.png" &>> "$log_file"
+    (
+    shot-scraper https://blog.forret.com  --width "$width" --height "$height" -o "$out_dir/blog.forret.com.png"
+    shot-scraper https://peter.forret.com --width "$width" --height "$height" -o "$out_dir/peter.forret.com.png"
+    shot-scraper https://www.forret.com   --width "$width" --height "$height" -o "$out_dir/www.forret.com.png"
+    ) &>> "$log_file"
     ;;
 
   gha:after)
