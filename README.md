@@ -69,7 +69,7 @@ jobs:
         ./bashew_github_action.sh gha:after
 ```
 
-Ther's an example in the [shots.yml](https://github.com/pforret/bashew_github_action/blob/master/.github/workflows/shots.yml) for this repo
+There's an example in the [.github/workflows/shots.yml](https://github.com/pforret/bashew_github_action/blob/master/.github/workflows/shots.yml) for this repo
 
 ## 🚀 Installation
 
