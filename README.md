@@ -13,9 +13,9 @@ Use bashew for a Github Action
 
 ## 🔥 Usage
 
-```
+```bash
 Program : bashew_github_action  by peter@forret.com
-Version : v0.0.1 (2022-10-16 20:22)
+Version : v1.0.0 (2022-10-16 20:42)
 Purpose : Use bashew for a Github Action
 Usage   : bashew_github_action [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] [-o <out_dir>] [-w <width>] [-h <height>] <action>
 Flags, options and parameters:
@@ -29,13 +29,44 @@ Flags, options and parameters:
     -w|--width <?>   : [option] screenshot width  [default: 1080]
     -h|--height <?>  : [option] screenshot height  [default: 720]
     <action>         : [choice] action to perform  [options: gha:before,gha:execute,gha:after,check,env,update]
+Check for latest version - git@github.com:pforret/bashew_github_action.git
+
+### TIPS & EXAMPLES
+* use bashew_github_action gha:before to install all necessary software before running the main payload
+  bashew_github_action gha:before
+* use bashew_github_action gha:execute to run the main payload of the action
+  bashew_github_action gha:execute
+* use bashew_github_action gha:after to check in and commit results to repo
+  bashew_github_action gha:after
+* use bashew_github_action check to check if this script is ready to execute and what values the options/flags are
+  bashew_github_action check
+* use bashew_github_action env to generate an example .env file
+  bashew_github_action env > .env
+* use bashew_github_action update to update to the latest version
+  bashew_github_action update
+* >>> bash script created with pforret/bashew
+* >>> for bash development, also check IO:print pforret/setver and pforret/IO:progressbar
 ```
 
 ## ⚡️ Examples
 
-```bash
-> bashew_github_action .
-# start PhpStorm with current folder as project
+use `bashew` in your Github Actions to do easy preliminary installations, execution and cleanup/commit afterwards.
+```yml
+jobs:
+  your-action-name:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    (...)
+    - name: gha:before
+      run: |
+        ./bashew_github_action.sh gha:before
+    - name: gha:execute
+      run: |
+        ./bashew_github_action.sh gha:execute
+    - name: gha:after
+      run: |-
+        ./bashew_github_action.sh gha:after
 ```
 
 ## 🚀 Installation
