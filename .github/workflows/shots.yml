@@ -1,0 +1,39 @@
+name: Screenshot
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  shot-scraper:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - uses: actions/cache@v3
+      name: Setup Cache for Python
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip
+        restore-keys: |
+          ${{ runner.os }}-pip
+    - name: Setup cache for Playwright
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/ms-playwright/
+        key: ${{ runner.os }}-browsers
+    - name: gha:before
+      run: |
+        ./bashew_github_action.sh gha:before
+    - name: gha:execute
+      run: |
+        ./bashew_github_action.sh gha:execute
+    - name: gha:after
+      run: |-
+        ./bashew_github_action.sh gha:after

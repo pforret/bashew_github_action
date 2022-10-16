@@ -21,37 +21,18 @@ install_package=""
 temp_files=()
 
 function Option:config() {
-  ### Change the next lines to reflect which flags/options/parameters you need
-  ### flag:   switch a flag 'on' / no value specified
-  ###     flag|<short>|<long>|<description>
-  ###     e.g. "-v" or "--verbose" for verbose output / default is always 'off'
-  ###     will be available as $<long> in the script e.g. $verbose
-  ### option: set an option / 1 value specified
-  ###     option|<short>|<long>|<description>|<default>
-  ###     e.g. "-e <extension>" or "--extension <extension>" for a file extension
-  ###     will be available a $<long> in the script e.g. $extension
-  ### list: add an list/array item / 1 value specified
-  ###     list|<short>|<long>|<description>| (default is ignored)
-  ###     e.g. "-u <user1> -u <user2>" or "--user <user1> --user <user2>"
-  ###     will be available a $<long> array in the script e.g. ${user[@]}
-  ### param:  comes after the options
-  ###     param|<type>|<long>|<description>
-  ###     <type> = 1 for single parameters - e.g. param|1|output expects 1 parameter <output>
-  ###     <type> = ? for optional parameters - e.g. param|1|output expects 1 parameter <output>
-  ###     <type> = n for list parameter    - e.g. param|n|inputs expects <input1> <input2> ... <input99>
-  ###     will be available as $<long> in the script after option/param parsing
-  ### choice:  is like a param, but when there are limited options
-  ###     choice|<type>|<long>|<description>|choice1,choice2,...
-  ###     <type> = 1 for single parameters - e.g. param|1|output expects 1 parameter <output>
 <<< "
 #commented lines will be filtered
 flag|h|help|show usage
 flag|q|quiet|no output
 flag|v|verbose|also show debug messages
 flag|f|force|do not ask for confirmation (always yes)
-option|l|log_dir|folder for log files |$HOME/log/$script_prefix
-option|t|tmp_dir|folder for temp files|/tmp/$script_prefix
-choice|1|action|action to perform|action1,action2,check,env,update
+option|l|log_dir|folder for log files |log
+option|t|tmp_dir|folder for temp files|tmp
+option|o|out_dir|folder for output files|output
+option|w|width|screenshot width|1080
+option|h|height|screenshot height|720
+choice|1|action|action to perform|gha:before,gha:execute,gha:after,check,env,update
 #param|?|input|input file/text
 " grep -v -e '^#' -e '^\s*$'
 }
@@ -67,16 +48,26 @@ Script:main() {
 
   action=$(Str:lower "$action")
   case $action in
-  action1)
-    #TIP: use «$script_prefix action1» to ...
-    #TIP:> $script_prefix action1
-    do_action1
+  gha:before)
+    #TIP: use «$script_prefix gha:before to install all necessary software before running the main payload
+    #TIP:> $script_prefix gha:before
+
+    Os:require pip python3
+    pip install shot-scraper
+    shot-scraper install
     ;;
 
-  action2)
-    #TIP: use «$script_prefix action2» to ...
-    #TIP:> $script_prefix action2
-    do_action2
+  gha:execute)
+    #TIP: use «$script_prefix gha:execute» to run the main payload of the action
+    #TIP:> $script_prefix gha:execute
+    [[ ! -d "$out_dir" ]] && mkdir -p "$out_dir"
+    shot-scraper https://blog.forret.com --width "$width" --height "$height" -o blog.forret.com.png &>> "$log_file"
+    ;;
+
+  gha:after)
+    #TIP: use «$script_prefix gha:after to check in and commit results to repo
+    #TIP:> $script_prefix gha:after
+    Gha:finish
     ;;
 
   check | env)
@@ -108,8 +99,8 @@ Script:main() {
 ## Put your helper scripts here
 #####################################################################
 
-do_action1() {
-  IO:log "action1"
+do_gha:setup() {
+  IO:log "gha:setup"
   # Examples of required binaries/scripts and how to install them
   # Os:require "ffmpeg"
   # Os:require "convert" "imagemagick"
@@ -117,8 +108,8 @@ do_action1() {
   # (code)
 }
 
-do_action2() {
-  IO:log "action2"
+do_gha:execute() {
+  IO:log "gha:execute"
   # (code)
 
 }
