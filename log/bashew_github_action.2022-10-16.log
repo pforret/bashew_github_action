@@ -1,0 +1,10 @@
+18:38:03 | [bashew_github_action.sh] 0.0.2 started
+18:38:03 | Running gha:before
+18:38:07 | [bashew_github_action.sh] ended after 5 secs
+18:38:07 | [bashew_github_action.sh] 0.0.2 started
+18:38:07 | Running gha:execute
+18:38:07 | Create screenshot
+Screenshot of 'https://blog.forret.com' written to 'output/blog.forret.com.png'
+18:38:10 | [bashew_github_action.sh] ended after 3 secs
+18:38:10 | [bashew_github_action.sh] 0.0.2 started
+18:38:10 | Running gha:after
