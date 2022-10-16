@@ -86,6 +86,7 @@ Script:main() {
     git add "$out_dir"
     git add log
     git add -A
+    IO:log "----------------------------------------------"
     git commit -m "${message}" || exit 0
     git pull --rebase
     git push
