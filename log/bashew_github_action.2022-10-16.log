@@ -8,3 +8,13 @@ Screenshot of 'https://blog.forret.com' written to 'output/blog.forret.com.png'
 18:38:10 | [bashew_github_action.sh] ended after 3 secs
 18:38:10 | [bashew_github_action.sh] 0.0.2 started
 18:38:10 | Running gha:after
+18:41:25 | [bashew_github_action.sh] 1.0.0 started
+18:41:25 | Running gha:before
+18:41:32 | [bashew_github_action.sh] ended after 8 secs
+18:41:32 | [bashew_github_action.sh] 1.0.0 started
+18:41:32 | Running gha:execute
+18:41:32 | Create screenshot
+Screenshot of 'https://blog.forret.com' written to 'output/blog.forret.com.png'
+18:41:35 | [bashew_github_action.sh] ended after 3 secs
+18:41:35 | [bashew_github_action.sh] 1.0.0 started
+18:41:35 | Running gha:after
