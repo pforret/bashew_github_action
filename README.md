@@ -12,6 +12,8 @@
 
 Use bashew for a Github Action
 
+cf [blog.forret.com/2022/10/15/bashew-github-action/](https://blog.forret.com/2022/10/15/bashew-github-action/)
+
 ## 🔥 Usage
 
 ```php
