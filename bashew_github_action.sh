@@ -64,9 +64,10 @@ Script:main() {
     #TIP:> $script_prefix gha:execute
     [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
 
-    # shellcheck disable=SC2154
     IO:log "Running gha:execute"
+    # shellcheck disable=SC2154
     [[ ! -d "$out_dir" ]] && mkdir -p "$out_dir"
+    IO:log "Create screenshot"
     # shellcheck disable=SC2154
     shot-scraper https://blog.forret.com --width "$width" --height "$height" -o "$out_dir/blog.forret.com.png" &>> "$log_file"
     ;;
