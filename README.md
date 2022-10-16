@@ -13,7 +13,7 @@ Use bashew for a Github Action
 
 ## 🔥 Usage
 
-```bash
+```php
 Program : bashew_github_action  by peter@forret.com
 Version : v1.0.0 (2022-10-16 20:42)
 Purpose : Use bashew for a Github Action
