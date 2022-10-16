@@ -30,19 +30,18 @@ Flags, options and parameters:
     -h|--height <?>  : [option] screenshot height  [default: 720]
     <action>         : [choice] action to perform  [options: gha:before,gha:execute,gha:after,check,env,update]
 Check for latest version - git@github.com:pforret/bashew_github_action.git
-
 ### TIPS & EXAMPLES
-* use bashew_github_action gha:before to install all necessary software before running the main payload
+* use "bashew_github_action gha:before" to install all necessary software before running the main payload
   bashew_github_action gha:before
-* use bashew_github_action gha:execute to run the main payload of the action
+* use "bashew_github_action gha:execute" to run the main payload of the action
   bashew_github_action gha:execute
-* use bashew_github_action gha:after to check in and commit results to repo
+* use "bashew_github_action gha:after" to check in and commit results to repo
   bashew_github_action gha:after
-* use bashew_github_action check to check if this script is ready to execute and what values the options/flags are
+* use "bashew_github_action check" to check if this script is ready to execute and what values the options/flags are
   bashew_github_action check
-* use bashew_github_action env to generate an example .env file
+* use "bashew_github_action env" to generate an example .env file
   bashew_github_action env > .env
-* use bashew_github_action update to update to the latest version
+* use "bashew_github_action update" to update to the latest version
   bashew_github_action update
 * >>> bash script created with pforret/bashew
 * >>> for bash development, also check IO:print pforret/setver and pforret/IO:progressbar
@@ -68,6 +67,8 @@ jobs:
       run: |-
         ./bashew_github_action.sh gha:after
 ```
+
+Ther's an example in the [shots.yml](https://github.com/pforret/bashew_github_action/blob/master/.github/workflows/shots.yml) for this repo
 
 ## 🚀 Installation
 
