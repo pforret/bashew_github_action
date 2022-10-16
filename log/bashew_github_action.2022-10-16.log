@@ -18,3 +18,14 @@ Screenshot of 'https://blog.forret.com' written to 'output/blog.forret.com.png'
 18:41:35 | [bashew_github_action.sh] ended after 3 secs
 18:41:35 | [bashew_github_action.sh] 1.0.0 started
 18:41:35 | Running gha:after
+18:42:55 | [bashew_github_action.sh] 1.0.0 started
+18:42:55 | Running gha:before
+18:43:01 | [bashew_github_action.sh] ended after 6 secs
+18:43:01 | [bashew_github_action.sh] 1.0.0 started
+18:43:01 | Running gha:execute
+18:43:01 | Create screenshots
+Screenshot of 'https://blog.forret.com' written to 'output/blog.forret.com.png'
+Screenshot of 'https://peter.forret.com' written to 'output/peter.forret.com.png'
+18:43:06 | [bashew_github_action.sh] ended after 5 secs
+18:43:07 | [bashew_github_action.sh] 1.0.0 started
+18:43:07 | Running gha:after
