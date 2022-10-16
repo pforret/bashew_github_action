@@ -1,11 +1,12 @@
 ![bash_unit CI](https://github.com/pforret/bashew_github_action/workflows/bash_unit%20CI/badge.svg)
 ![Shellcheck CI](https://github.com/pforret/bashew_github_action/workflows/Shellcheck%20CI/badge.svg)
 [![Screenshot](https://github.com/pforret/bashew_github_action/actions/workflows/shots.yml/badge.svg)](https://github.com/pforret/bashew_github_action/actions/workflows/shots.yml)
+
 ![GH Language](https://img.shields.io/github/languages/top/pforret/bashew_github_action)
 ![GH stars](https://img.shields.io/github/stars/pforret/bashew_github_action)
 ![GH tag](https://img.shields.io/github/v/tag/pforret/bashew_github_action)
 ![GH License](https://img.shields.io/github/license/pforret/bashew_github_action)
-[![basher install](https://img.shields.io/badge/basher-install-white?logo=gnu-bash&style=flat)](https://basher.gitparade.com/package/)
+[![basher install](https://img.shields.io/badge/basher-install-white?logo=gnu-bash&style=flat)](https://www.basher.it/package/)
 
 # bashew_github_action
 
