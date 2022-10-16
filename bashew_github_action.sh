@@ -49,7 +49,7 @@ Script:main() {
   action=$(Str:lower "$action")
   case $action in
   gha:before)
-    #TIP: use «$script_prefix gha:before to install all necessary software before running the main payload
+    #TIP: use «$script_prefix gha:before» to install all necessary software before running the main payload
     #TIP:> $script_prefix gha:before
     [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
 
@@ -66,14 +66,14 @@ Script:main() {
 
     IO:log "Running gha:execute"
     # shellcheck disable=SC2154
-    [[ ! -d "$out_dir" ]] && mkdir -p "$out_dir"
+    Os:folder "$out_dir" 30
     IO:log "Create screenshot"
     # shellcheck disable=SC2154
     shot-scraper https://blog.forret.com --width "$width" --height "$height" -o "$out_dir/blog.forret.com.png" &>> "$log_file"
     ;;
 
   gha:after)
-    #TIP: use «$script_prefix gha:after to check in and commit results to repo
+    #TIP: use «$script_prefix gha:after» to check in and commit results to repo
     #TIP:> $script_prefix gha:after
     [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
 
@@ -404,7 +404,7 @@ Script:check_version() {
     if [[ -d .git ]]; then
       local remote
       remote="$(git remote -v | grep fetch | awk 'NR == 1 {print $2}')"
-      IO:progress "Check for latest version - $remote"
+      IO:print "Check for latest version - $remote"
       git remote update &>/dev/null
       if [[ $(git rev-list --count "HEAD...HEAD@{upstream}" 2>/dev/null) -gt 0 ]]; then
         IO:print "There is a more recent update of this script - run <<$script_prefix update>> to update"
@@ -638,18 +638,18 @@ function Option:parse() {
         BEGIN { FS="|"; OFS=" ";}
         $1 ~ /flag/   &&  "-"$2 == opt {print $3"=1"}
         $1 ~ /flag/   && "--"$3 == opt {print $3"=1"}
-        $1 ~ /option/ &&  "-"$2 == opt {print $3"=$2; shift"}
-        $1 ~ /option/ && "--"$3 == opt {print $3"=$2; shift"}
-        $1 ~ /list/ &&  "-"$2 == opt {print $3"+=($2); shift"}
-        $1 ~ /list/ && "--"$3 == opt {print $3"=($2); shift"}
-        $1 ~ /secret/ &&  "-"$2 == opt {print $3"=$2; shift #noshow"}
-        $1 ~ /secret/ && "--"$3 == opt {print $3"=$2; shift #noshow"}
+        $1 ~ /option/ &&  "-"$2 == opt {print $3"=${2:-}; shift"}
+        $1 ~ /option/ && "--"$3 == opt {print $3"=${2:-}; shift"}
+        $1 ~ /list/ &&  "-"$2 == opt {print $3"+=(${2:-}); shift"}
+        $1 ~ /list/ && "--"$3 == opt {print $3"=(${2:-}); shift"}
+        $1 ~ /secret/ &&  "-"$2 == opt {print $3"=${2:-}; shift #noshow"}
+        $1 ~ /secret/ && "--"$3 == opt {print $3"=${2:-}; shift #noshow"}
         ')
     if [[ -n "$save_option" ]]; then
       if echo "$save_option" | grep shift >>/dev/null; then
         local save_var
         save_var=$(echo "$save_option" | cut -d= -f1)
-        IO:debug "$config_icon parameter: ${save_var}=$2"
+        IO:debug "$config_icon parameter: ${save_var}=${2:-}"
       else
         IO:debug "$config_icon flag: $save_option"
       fi
@@ -970,11 +970,11 @@ function Script:meta() {
 }
 
 function Script:initialize() {
-  log_file=""
   if [[ -n "${tmp_dir:-}" ]]; then
     # clean up TMP folder after 1 day
     Os:folder "$tmp_dir" 1
   fi
+  log_file=""
   if [[ -n "${log_dir:-}" ]]; then
     Os:folder "$log_dir" 30
     log_file="$log_dir/$script_prefix.$execution_day.log"
