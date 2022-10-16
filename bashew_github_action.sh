@@ -51,8 +51,10 @@ Script:main() {
   gha:before)
     #TIP: use «$script_prefix gha:before to install all necessary software before running the main payload
     #TIP:> $script_prefix gha:before
+    [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
 
     Os:require pip python3
+    IO:log "Running gha:before"
     pip install shot-scraper
     shot-scraper install
     ;;
@@ -60,14 +62,32 @@ Script:main() {
   gha:execute)
     #TIP: use «$script_prefix gha:execute» to run the main payload of the action
     #TIP:> $script_prefix gha:execute
+    [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
+
+    # shellcheck disable=SC2154
+    IO:log "Running gha:execute"
     [[ ! -d "$out_dir" ]] && mkdir -p "$out_dir"
-    shot-scraper https://blog.forret.com --width "$width" --height "$height" -o blog.forret.com.png &>> "$log_file"
+    # shellcheck disable=SC2154
+    shot-scraper https://blog.forret.com --width "$width" --height "$height" -o "$out_dir/blog.forret.com.png" &>> "$log_file"
     ;;
 
   gha:after)
     #TIP: use «$script_prefix gha:after to check in and commit results to repo
     #TIP:> $script_prefix gha:after
-    Gha:finish
+    [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
+
+    IO:log "Running gha:after"
+    git config user.name "Bashew Runner"
+    git config user.email "actions@users.noreply.github.com"
+    timestamp=$(date -u)
+    message="$timestamp < $script_basename $script_version"
+    git add "$out_dir"
+    git add log
+    git add -A
+    git commit -m "${message}" || exit 0
+    git pull --rebase
+    git push
+    exit 0
     ;;
 
   check | env)
@@ -99,20 +119,6 @@ Script:main() {
 ## Put your helper scripts here
 #####################################################################
 
-do_gha:setup() {
-  IO:log "gha:setup"
-  # Examples of required binaries/scripts and how to install them
-  # Os:require "ffmpeg"
-  # Os:require "convert" "imagemagick"
-  # Os:require "IO:progressbar" "basher install pforret/IO:progressbar"
-  # (code)
-}
-
-do_gha:execute() {
-  IO:log "gha:execute"
-  # (code)
-
-}
 
 #####################################################################
 ################### DO NOT MODIFY BELOW THIS LINE ###################
@@ -893,7 +899,7 @@ function Script:meta() {
   [[ -n "${KSH_VERSION:-}" ]] && shell_brand="ksh" && shell_version="$KSH_VERSION"
   IO:debug "$info_icon Shell type : $shell_brand - version $shell_version"
   if [[ "$shell_brand" == "bash" && "${BASH_VERSINFO:-0}" -lt 4 ]]; then
-    IO:die "Bash version 4 or higher is required - current version = $BASH_VERSINFO"
+    IO:die "Bash v4 or higher is required - current version = ${BASH_VERSINFO:-0}"
   fi
 
 
