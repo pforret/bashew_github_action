@@ -81,18 +81,7 @@ Script:main() {
     #TIP:> $script_prefix gha:after
     [[ -z "${RUNNER_OS:-}" ]] && IO:die "This should only run inside a Github Action, don't run it on your machine"
 
-    IO:log "Running gha:after"
-    git config user.name "Bashew Runner"
-    git config user.email "actions@users.noreply.github.com"
-    timestamp=$(date -u)
-    message="$timestamp < $script_basename $script_version"
-    git add "$out_dir"
-    git add log
-    git add -A
-    IO:log "----------------------------------------------"
-    git commit -m "${message}" || exit 0
-    git pull --rebase
-    git push
+    Gha:finish
     exit 0
     ;;
 
